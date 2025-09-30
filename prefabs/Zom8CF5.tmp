@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://cb4iw8lkwgo74"]
+
+[ext_resource type="Script" path="res://scripts/enemies/zombo.gd" id="1_0ev0l"]
+[ext_resource type="Texture2D" uid="uid://b76yq3qdwa5dh" path="res://assets/enemies/zombo.png" id="1_s7poc"]
+[ext_resource type="Shader" path="res://shaders/hit.gdshader" id="2_1bqp2"]
+[ext_resource type="Texture2D" uid="uid://utvnyqrnbw3b" path="res://assets/particles/hit_0.png" id="4_723to"]
+[ext_resource type="Texture2D" uid="uid://bf7nn5sgdn7eb" path="res://assets/particles/hit_1.png" id="5_w0d7l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76rtb"]
+size = Vector2(6, 7)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fsxoa"]
+resource_local_to_scene = true
+shader = ExtResource("2_1bqp2")
+shader_parameter/hit = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvwlw"]
+size = Vector2(10, 10)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0agvq"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_mm5y2"]
+resource_local_to_scene = true
+frames = 2
+speed_scale = 10.0
+frame_0/texture = ExtResource("4_723to")
+frame_0/duration = 0.25
+frame_1/texture = ExtResource("5_w0d7l")
+frame_1/duration = 0.25
+
+[node name="Zombo" type="CharacterBody2D"]
+script = ExtResource("1_0ev0l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_76rtb")
+
+[node name="Zombo" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fsxoa")
+position = Vector2(0, -4)
+texture = ExtResource("1_s7poc")
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_xvwlw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_0agvq")
+texture = SubResource("AnimatedTexture_mm5y2")
+lifetime = 0.5
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

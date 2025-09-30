@@ -1,0 +1,118 @@
+[gd_scene load_steps=7 format=3 uid="uid://b1e7mhk0t86ua"]
+
+[ext_resource type="Script" path="res://scripts/sword.gd" id="1_eh4yk"]
+[ext_resource type="Texture2D" uid="uid://bgtswm1wvh5jg" path="res://assets/weapons/sword.png" id="1_vwh1x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r6tsp"]
+size = Vector2(9, 4)
+
+[sub_resource type="Animation" id="Animation_gntpi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3, -2.38419e-07)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.785398]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sword/Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_kyu1a"]
+resource_name = "sword_swing"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sword:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(3, -2.38419e-07), Vector2(7, -12), Vector2(14, -1), Vector2(9, 9), Vector2(3, -2.38419e-07)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.133333, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.785398, -0.382065, 0.784526, 1.72049, 0.785398]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sword/Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.2, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_flmeo"]
+_data = {
+"RESET": SubResource("Animation_gntpi"),
+"sword_swing": SubResource("Animation_kyu1a")
+}
+
+[node name="WeaponNode" type="Node2D"]
+script = ExtResource("1_eh4yk")
+
+[node name="Sword" type="Sprite2D" parent="."]
+position = Vector2(3, -2.38419e-07)
+rotation = 0.785398
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_vwh1x")
+
+[node name="Area2D" type="Area2D" parent="Sword"]
+position = Vector2(-2.82843, 2.82843)
+rotation = -0.785398
+scale = Vector2(1.33333, 1.33333)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword/Area2D"]
+position = Vector2(4.5, 4.26326e-13)
+shape = SubResource("RectangleShape2D_r6tsp")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_flmeo")
+}
+
+[connection signal="area_entered" from="Sword/Area2D" to="." method="_on_area_2d_area_entered"]

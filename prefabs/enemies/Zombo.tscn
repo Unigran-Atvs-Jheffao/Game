@@ -1,0 +1,90 @@
+[gd_scene load_steps=15 format=3 uid="uid://cb4iw8lkwgo74"]
+
+[ext_resource type="Script" path="res://scripts/enemies/zombo.gd" id="1_q4506"]
+[ext_resource type="Shader" path="res://shaders/hit.gdshader" id="2_qgsfd"]
+[ext_resource type="Texture2D" uid="uid://b76yq3qdwa5dh" path="res://assets/enemies/zombo.png" id="3_vbmey"]
+[ext_resource type="Texture2D" uid="uid://utvnyqrnbw3b" path="res://assets/particles/hit_0.png" id="4_2akwu"]
+[ext_resource type="Texture2D" uid="uid://bf7nn5sgdn7eb" path="res://assets/particles/hit_1.png" id="5_moml2"]
+[ext_resource type="Texture2D" uid="uid://b5w4paqygafkp" path="res://assets/particles/death_0.png" id="6_ja31y"]
+[ext_resource type="Texture2D" uid="uid://bvcl7bbpgl43u" path="res://assets/particles/death_1.png" id="7_0bnhi"]
+[ext_resource type="AudioStream" uid="uid://baoj8e1s4d04e" path="res://assets/sounds/Death.wav" id="8_08iem"]
+[ext_resource type="AudioStream" uid="uid://c3l3kgartdj7p" path="res://assets/sounds/Hit.wav" id="9_pwiea"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76rtb"]
+size = Vector2(6, 7)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fsxoa"]
+resource_local_to_scene = true
+shader = ExtResource("2_qgsfd")
+shader_parameter/hit = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvwlw"]
+size = Vector2(10, 10)
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_jyvoj"]
+frames = 3
+frame_0/texture = ExtResource("4_2akwu")
+frame_0/duration = 0.1
+frame_1/texture = ExtResource("5_moml2")
+frame_1/duration = 0.1
+frame_2/texture = ExtResource("4_2akwu")
+frame_2/duration = 0.1
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_y8o0g"]
+frames = 2
+frame_0/texture = ExtResource("6_ja31y")
+frame_0/duration = 0.1
+frame_1/texture = ExtResource("7_0bnhi")
+frame_1/duration = 0.1
+
+[node name="Zombo" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_q4506")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_76rtb")
+
+[node name="Zombo" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fsxoa")
+position = Vector2(0, -4)
+texture = ExtResource("3_vbmey")
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_xvwlw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+
+[node name="HitParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 1
+lifetime = 0.3
+one_shot = true
+texture = SubResource("AnimatedTexture_jyvoj")
+gravity = Vector2(0, 0)
+
+[node name="DeathParticles" type="CPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 1
+lifetime = 0.2
+one_shot = true
+texture = SubResource("AnimatedTexture_y8o0g")
+gravity = Vector2(0, 0)
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("8_08iem")
+volume_db = -10.0
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("9_pwiea")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="finished" from="DeathParticles" to="." method="_on_death_particles_finished"]

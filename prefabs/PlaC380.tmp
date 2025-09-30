@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://cnsaew81i3s36"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_kha5m"]
+[ext_resource type="Texture2D" uid="uid://c5kc61ycveqrr" path="res://assets/player.png" id="1_s1s23"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="4_wc32k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbknd"]
+size = Vector2(6, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m0b14"]
+size = Vector2(10, 10)
+
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("1_kha5m")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(6, 6)
+limit_left = 0
+limit_top = 0
+limit_right = 1144
+limit_bottom = 640
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CharacterBody2D/Camera2D"]
+scale = Vector2(6, 6)
+transform = Transform2D(6, 0, 0, 6, 0, 0)
+
+[node name="Control" type="Control" parent="CharacterBody2D/Camera2D/CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_wc32k")
+
+[node name="Background" type="ColorRect" parent="CharacterBody2D/Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07375
+anchor_top = 0.0108333
+anchor_right = 0.09875
+anchor_bottom = 0.0108333
+offset_left = 0.0500007
+offset_top = 3.56667
+offset_right = 33.05
+offset_bottom = 7.56667
+mouse_filter = 2
+color = Color(0.190762, 0.190762, 0.190762, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthBar" type="ColorRect" parent="CharacterBody2D/Camera2D/CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.075
+anchor_top = 0.1
+anchor_right = 0.1
+anchor_bottom = 0.1
+offset_right = 33.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(1, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_rbknd")
+
+[node name="Player" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(0, -4)
+texture = ExtResource("1_s1s23")
+
+[node name="WeaponRoot" type="Node2D" parent="CharacterBody2D"]
+position = Vector2(0, -4)
+
+[node name="WeaponParent" type="Node2D" parent="CharacterBody2D/WeaponRoot"]
+position = Vector2(6, 0)
+
+[node name="HurtBox" type="Area2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HurtBox"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_m0b14")
+
+[node name="Timer" type="Timer" parent="CharacterBody2D"]
+
+[connection signal="area_entered" from="CharacterBody2D/HurtBox" to="CharacterBody2D" method="_on_hurt_box_area_entered"]
+[connection signal="timeout" from="CharacterBody2D/Timer" to="CharacterBody2D" method="_on_timer_timeout"]

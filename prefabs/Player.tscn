@@ -1,0 +1,149 @@
+[gd_scene load_steps=17 format=3 uid="uid://cnsaew81i3s36"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_kha5m"]
+[ext_resource type="Texture2D" uid="uid://c5kc61ycveqrr" path="res://assets/player.png" id="1_s1s23"]
+[ext_resource type="Texture2D" uid="uid://dugi4gvhd1abn" path="res://assets/particles/dust.png" id="2_h56m2"]
+[ext_resource type="Material" uid="uid://8cmg3rk7d4v8" path="res://effects/HitEffect.tres" id="4_rf3bk"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="4_wc32k"]
+[ext_resource type="AudioStream" uid="uid://c3l3kgartdj7p" path="res://assets/sounds/Hit.wav" id="5_iiac6"]
+[ext_resource type="PackedScene" uid="uid://t70l1eo6h3fn" path="res://prefabs/hud/MORTE.tscn" id="6_trueh"]
+
+[sub_resource type="Curve" id="Curve_wufau"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_62wcb"]
+curve = SubResource("Curve_wufau")
+
+[sub_resource type="Gradient" id="Gradient_h72yq"]
+colors = PackedColorArray(1, 1, 1, 1, 0.295867, 0.295866, 0.295867, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c3eln"]
+gradient = SubResource("Gradient_h72yq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_p0poq"]
+lifetime_randomness = 1.0
+particle_flag_rotate_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1.265, 0.23, 1)
+angle_min = -124.1
+angle_max = 1.07288e-05
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -2.03
+linear_accel_max = 66.93
+radial_accel_min = -2.23517e-06
+radial_accel_max = 50.51
+damping_min = 4.592
+damping_max = 4.592
+scale_min = 0.05
+scale_max = 0.25
+scale_over_velocity_max = 7.65
+color_ramp = SubResource("GradientTexture1D_c3eln")
+alpha_curve = SubResource("CurveTexture_62wcb")
+hue_variation_min = -2.23517e-08
+hue_variation_max = -2.23517e-08
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l2bus"]
+bg_color = Color(0, 1, 0, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 10
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 10
+
+[sub_resource type="Theme" id="Theme_cxyrt"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_l2bus")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbknd"]
+size = Vector2(6, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m0b14"]
+size = Vector2(8, 8)
+
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 4
+script = ExtResource("1_kha5m")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="CharacterBody2D"]
+amount = 64
+process_material = SubResource("ParticleProcessMaterial_p0poq")
+texture = ExtResource("2_h56m2")
+lifetime = 0.3
+fixed_fps = 60
+collision_base_size = 0.0
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(6, 6)
+limit_left = 0
+limit_top = 0
+limit_right = 1144
+limit_bottom = 640
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CharacterBody2D/Camera2D"]
+script = ExtResource("4_wc32k")
+
+[node name="Health" type="ProgressBar" parent="CharacterBody2D/Camera2D/CanvasLayer"]
+offset_left = 9.0
+offset_top = 8.0
+offset_right = 201.0
+offset_bottom = 35.0
+mouse_filter = 2
+theme = SubResource("Theme_cxyrt")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+
+[node name="HP" type="Label" parent="CharacterBody2D/Camera2D/CanvasLayer/Health"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -183.0
+offset_top = 28.0
+offset_right = 9.0
+offset_bottom = 55.0
+grow_horizontal = 0
+text = "HP
+"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_rbknd")
+
+[node name="Player" type="Sprite2D" parent="CharacterBody2D"]
+material = ExtResource("4_rf3bk")
+position = Vector2(0, -4)
+texture = ExtResource("1_s1s23")
+
+[node name="WeaponRoot" type="Node2D" parent="CharacterBody2D"]
+position = Vector2(0, -4)
+
+[node name="WeaponParent" type="Node2D" parent="CharacterBody2D/WeaponRoot"]
+position = Vector2(6, 0)
+
+[node name="HurtBox" type="Area2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HurtBox"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_m0b14")
+
+[node name="StunTimer" type="Timer" parent="CharacterBody2D"]
+wait_time = 0.1
+
+[node name="InvulnerabilityTimer" type="Timer" parent="CharacterBody2D"]
+wait_time = 0.5
+
+[node name="Sounds" type="Node" parent="CharacterBody2D"]
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="CharacterBody2D/Sounds"]
+stream = ExtResource("5_iiac6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Morte" parent="CanvasLayer" instance=ExtResource("6_trueh")]
+
+[connection signal="area_entered" from="CharacterBody2D/HurtBox" to="CharacterBody2D" method="_on_hurt_box_area_entered"]
+[connection signal="timeout" from="CharacterBody2D/StunTimer" to="CharacterBody2D" method="_on_timer_timeout"]
+[connection signal="timeout" from="CharacterBody2D/InvulnerabilityTimer" to="CharacterBody2D" method="_on_invulnerability_timer_timeout"]

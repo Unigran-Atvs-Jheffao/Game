@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://djoahi43jc561"]
+
+[ext_resource type="Script" path="res://scripts/hud/card.gd" id="1_pwftj"]
+
+[node name="PanelContainer" type="PanelContainer"]
+custom_minimum_size = Vector2(300, 400)
+offset_right = 234.0
+offset_bottom = 332.0
+script = ExtResource("1_pwftj")
+
+[node name="PowerUpName" type="Button" parent="."]
+layout_mode = 2
+text = "Pick
+"
+
+[connection signal="button_up" from="PowerUpName" to="." method="_on_power_up_name_button_up"]

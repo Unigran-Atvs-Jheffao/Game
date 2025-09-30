@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Upgrades" load_steps=2 format=3 uid="uid://jqs7r5bx5wsq"]
+
+[ext_resource type="Script" path="res://scripts/resources/upgrades_resource.gd" id="1_lpep6"]
+
+[resource]
+script = ExtResource("1_lpep6")
+upgrades = Array[Dictionary]([{
+"damage": 3.0,
+"description": "Adds +3 Damage to Weapon",
+"name": "Damage Up"
+}, {
+"description": "Adds +0.5 Speed to Weapon",
+"name": "Speed Up",
+"speed": 0.5
+}, {
+"description": "Adds +0.5 Knockback to Weapon",
+"knockback": 0.5,
+"name": "Knockback Up"
+}, {
+"description": "Adds +10 to Max Health",
+"health": 10.0,
+"name": "Max HP Up"
+}, {
+"description": "Makes the sword big",
+"name": "Comically Large Sword",
+"scale": 1
+}, {
+"description": "+10 to Movespeed",
+"ms": 10,
+"name": "Movespeed Up"
+}])

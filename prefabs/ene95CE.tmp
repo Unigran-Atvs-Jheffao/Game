@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cb4iw8lkwgo74"]
+
+[ext_resource type="Script" path="res://scripts/enemies/zombo.gd" id="1_0ev0l"]
+[ext_resource type="Texture2D" uid="uid://b76yq3qdwa5dh" path="res://assets/enemies/zombo.png" id="1_s7poc"]
+
+[sub_resource type="SystemFont" id="SystemFont_5j7vf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_76rtb"]
+size = Vector2(6, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xvwlw"]
+size = Vector2(10, 10)
+
+[node name="Enemy" type="CharacterBody2D"]
+script = ExtResource("1_0ev0l")
+fontDamage = SubResource("SystemFont_5j7vf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_76rtb")
+
+[node name="Zombo" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("1_s7poc")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.25
+
+[node name="HurtBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_xvwlw")
