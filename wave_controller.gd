@@ -2,6 +2,7 @@ extends Node2D
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var wave_timeout: Timer = $WaveTimeout
 @onready var control: CanvasLayer = $Node2D/PickUpgrade
+@onready var tile_map_layer: TileMapLayer = $"../TileMapLayer"
 
 @onready var current_wave: Label = $CanvasLayer/CurrentWave
 @onready var enemies: Label = $CanvasLayer/Enemies
@@ -27,17 +28,9 @@ func _process(delta: float) -> void:
 		var random = randf_range(0,360);
 		var ang = deg_to_rad(random);
 		
-		var x = GlobalPlayerData.player.global_position.x + sin(ang) * 100;
-		var y = GlobalPlayerData.player.global_position.y + cos(ang) * 100;
+		var x = GlobalPlayerData.player.global_position.x + sin(ang) * 25;
+		var y = GlobalPlayerData.player.global_position.y + cos(ang) * 25;
 		
-		if(x < 16):
-			x = 24;
-		if(y < 16):
-			y = 24;
-		if(x > 1144):
-			x = 1144 - 32;
-		if(y > 640):
-			y = 640 - 32;
 		
 		var zombo = zomboPrefab.instantiate();
 		zombo.global_position = Vector2(x,y);
@@ -50,7 +43,20 @@ func _process(delta: float) -> void:
 		get_tree().paused = true;
 		control.visible = true;
 		
+	if(WaveData.current_wave == 6):
+		tile_map_layer.material.set_shader_parameter("color", Color(0.977, 0.669, 0.248, 1.0));
 		
+	if(WaveData.current_wave == 11):
+		tile_map_layer.material.set_shader_parameter("color", Color(1.0, 1.0, 1.0, 1.0));
+		
+	if(WaveData.current_wave == 16):
+		tile_map_layer.material.set_shader_parameter("color", Color(0.075, 0.407, 1.0, 1.0));
+		
+	if(WaveData.current_wave == 21):
+		tile_map_layer.material.set_shader_parameter("color", Color(0.837, 0.0, 0.47, 1.0));
+		
+	if(WaveData.current_wave == 26):
+		tile_map_layer.material.set_shader_parameter("color", Color(0,0,0,0));
 	
 	current_wave.text = "Current Wave: " + str(WaveData.current_wave);
 	enemies.text = "Enemies Remaining: " + str(WaveData.wave_size - WaveData.wave_deaths);

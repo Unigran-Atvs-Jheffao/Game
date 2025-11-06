@@ -1,7 +1,7 @@
 extends Node
 
 @export
-var current_wave = 0;
+var current_wave = 21;
 
 @export
 var can_start_next: bool = false;

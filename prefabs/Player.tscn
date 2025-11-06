@@ -1,10 +1,10 @@
 [gd_scene load_steps=17 format=3 uid="uid://cnsaew81i3s36"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_kha5m"]
+[ext_resource type="Script" uid="uid://bq6p75skng2vd" path="res://scripts/player.gd" id="1_kha5m"]
 [ext_resource type="Texture2D" uid="uid://c5kc61ycveqrr" path="res://assets/player.png" id="1_s1s23"]
 [ext_resource type="Texture2D" uid="uid://dugi4gvhd1abn" path="res://assets/particles/dust.png" id="2_h56m2"]
 [ext_resource type="Material" uid="uid://8cmg3rk7d4v8" path="res://effects/HitEffect.tres" id="4_rf3bk"]
-[ext_resource type="Script" path="res://scripts/hud.gd" id="4_wc32k"]
+[ext_resource type="Script" uid="uid://be7bpo4topkk4" path="res://scripts/hud.gd" id="4_wc32k"]
 [ext_resource type="AudioStream" uid="uid://c3l3kgartdj7p" path="res://assets/sounds/Hit.wav" id="5_iiac6"]
 [ext_resource type="PackedScene" uid="uid://t70l1eo6h3fn" path="res://prefabs/hud/MORTE.tscn" id="6_trueh"]
 
@@ -68,11 +68,11 @@ script = ExtResource("1_kha5m")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="CharacterBody2D"]
 amount = 64
-process_material = SubResource("ParticleProcessMaterial_p0poq")
 texture = ExtResource("2_h56m2")
 lifetime = 0.3
 fixed_fps = 60
 collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_p0poq")
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
 zoom = Vector2(6, 6)

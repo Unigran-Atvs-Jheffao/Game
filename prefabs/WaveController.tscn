@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://b7gnu6s8jwg6s"]
 
-[ext_resource type="Script" path="res://wave_controller.gd" id="1_xqgid"]
-[ext_resource type="Script" path="res://scripts/upgrades.gd" id="2_lcqq5"]
+[ext_resource type="Script" uid="uid://bf3hxqmpfv7pa" path="res://wave_controller.gd" id="1_xqgid"]
+[ext_resource type="Script" uid="uid://b354osit2hj1r" path="res://scripts/upgrades.gd" id="2_lcqq5"]
 [ext_resource type="Resource" uid="uid://jqs7r5bx5wsq" path="res://upgrades.tres" id="3_7ytsp"]
 [ext_resource type="PackedScene" uid="uid://djoahi43jc561" path="res://prefabs/hud/Card.tscn" id="3_s2aw2"]
 
@@ -30,15 +30,15 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7ybhc"]
 _data = {
-"RESET": SubResource("Animation_cccq3"),
-"wave": SubResource("Animation_0fpmw")
+&"RESET": SubResource("Animation_cccq3"),
+&"wave": SubResource("Animation_0fpmw")
 }
 
 [node name="WaveController" type="Node2D"]
 script = ExtResource("1_xqgid")
 
 [node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.1
 
 [node name="WaveTimeout" type="Timer" parent="."]
 wait_time = 5.0
@@ -90,7 +90,7 @@ vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
 libraries = {
-"": SubResource("AnimationLibrary_7ybhc")
+&"": SubResource("AnimationLibrary_7ybhc")
 }
 
 [node name="Node2D" type="Node2D" parent="."]
