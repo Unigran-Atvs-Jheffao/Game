@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://b7gnu6s8jwg6s"]
+[gd_scene load_steps=10 format=3 uid="uid://b7gnu6s8jwg6s"]
 
-[ext_resource type="Script" uid="uid://bf3hxqmpfv7pa" path="res://wave_controller.gd" id="1_xqgid"]
+[ext_resource type="Script" uid="uid://bf3hxqmpfv7pa" path="res://scripts/wave_controller.gd" id="1_xqgid"]
 [ext_resource type="Script" uid="uid://b354osit2hj1r" path="res://scripts/upgrades.gd" id="2_lcqq5"]
-[ext_resource type="Resource" uid="uid://jqs7r5bx5wsq" path="res://upgrades.tres" id="3_7ytsp"]
+[ext_resource type="Resource" uid="uid://jqs7r5bx5wsq" path="res://resources/upgrades.tres" id="3_7ytsp"]
 [ext_resource type="PackedScene" uid="uid://djoahi43jc561" path="res://prefabs/hud/Card.tscn" id="3_s2aw2"]
+[ext_resource type="Texture2D" uid="uid://borf4eayxmobq" path="res://assets/pickups/coin.png" id="5_c8bf3"]
 
 [sub_resource type="Theme" id="Theme_le1v4"]
 default_font_size = 80
@@ -38,7 +39,7 @@ _data = {
 script = ExtResource("1_xqgid")
 
 [node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.5
 
 [node name="WaveTimeout" type="Timer" parent="."]
 wait_time = 5.0
@@ -144,6 +145,73 @@ layout_mode = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 
+[node name="Button" type="Button" parent="Node2D/PickUpgrade/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -98.0
+offset_right = 163.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+expand_icon = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Node2D/PickUpgrade/Control/Button"]
+layout_mode = 0
+offset_right = 325.0
+offset_bottom = 81.0
+scale = Vector2(1, 0.992115)
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Node2D/PickUpgrade/Control/Button/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("5_c8bf3")
+
+[node name="Control" type="Control" parent="Node2D/PickUpgrade/Control/Button/HBoxContainer"]
+layout_mode = 2
+
+[node name="Cost" type="Label" parent="Node2D/PickUpgrade/Control/Button/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Node2D/PickUpgrade/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -162.5
+offset_right = 162.5
+offset_bottom = 81.0
+grow_horizontal = 2
+scale = Vector2(1, 0.992115)
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Node2D/PickUpgrade/Control/HBoxContainer"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.0
+texture = ExtResource("5_c8bf3")
+
+[node name="Control" type="Control" parent="Node2D/PickUpgrade/Control/HBoxContainer"]
+layout_mode = 2
+
+[node name="Money" type="Label" parent="Node2D/PickUpgrade/Control/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="WaveTimeout" to="." method="_on_wave_timeout_timeout"]
 [connection signal="visibility_changed" from="Node2D/PickUpgrade" to="Node2D" method="_on_pick_upgrade_visibility_changed"]
+[connection signal="pressed" from="Node2D/PickUpgrade/Control/Button" to="Node2D" method="_on_button_pressed"]

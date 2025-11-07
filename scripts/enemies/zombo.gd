@@ -11,6 +11,13 @@ extends Enemy
 @onready var hit_sound: AudioStreamPlayer2D = $Sounds/HitSound
 @onready var death_sound: AudioStreamPlayer2D = $Sounds/DeathSound
 
+
+
+var coin = preload("res://prefabs/Coin.tscn");
+var food = preload("res://prefabs/Rango.tscn");
+
+
+
 var unique;
 
 var death: bool = false;
@@ -35,6 +42,15 @@ func _process(delta: float) -> void:
 		death_particles.emitting = true;
 		death_sound.pitch_scale = randf_range(0.95,1.05);
 		death_sound.play();
+		for i in range(randi_range(2,5)):
+			var inst_coin = coin.instantiate();
+			inst_coin.global_position = Vector2(global_position.x + randf_range(-5,5), global_position.y + randf_range(-5,5));
+			get_parent().add_sibling(inst_coin);
+			
+		if(randf() < 0.1):
+			var inst_food = food.instantiate();
+			inst_food.global_position = Vector2(global_position.x + randf_range(-5,5), global_position.y + randf_range(-5,5));
+			get_parent().add_sibling(inst_food);
 		death = true;
 	
 	if(timer.is_stopped()):

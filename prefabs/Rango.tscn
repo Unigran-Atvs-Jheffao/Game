@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4hkeu3drejog"]
+
+[ext_resource type="Script" uid="uid://cdb4x0cidxngv" path="res://scripts/pickups/frango.gd" id="1_ke2w0"]
+[ext_resource type="Texture2D" uid="uid://dfdy0mtu1f7tp" path="res://assets/pickups/le_frang.png" id="2_sfis3"]
+[ext_resource type="AudioStream" uid="uid://23kjeieyo6uu" path="res://assets/sounds/PowerUp.wav" id="3_ke2w0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_efyxs"]
+radius = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aqeux"]
+resource_local_to_scene = true
+size = Vector2(9.9375, 9.9375)
+
+[node name="RigidBody2D" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_ke2w0")
+
+[node name="Coin" type="Sprite2D" parent="."]
+position = Vector2(7.1054274e-15, -5.9604645e-08)
+scale = Vector2(1.03125, 1.03125)
+texture = ExtResource("2_sfis3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_efyxs")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_aqeux")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ke2w0")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]

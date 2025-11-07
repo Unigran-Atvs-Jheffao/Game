@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://cb4iw8lkwgo74"]
 
-[ext_resource type="Script" path="res://scripts/enemies/zombo.gd" id="1_q4506"]
-[ext_resource type="Shader" path="res://shaders/hit.gdshader" id="2_qgsfd"]
+[ext_resource type="Script" uid="uid://hgb2v7olvy68" path="res://scripts/enemies/zombo.gd" id="1_q4506"]
+[ext_resource type="Shader" uid="uid://bflvb6fbefes3" path="res://shaders/hit.gdshader" id="2_qgsfd"]
 [ext_resource type="Texture2D" uid="uid://b76yq3qdwa5dh" path="res://assets/enemies/zombo.png" id="3_vbmey"]
 [ext_resource type="Texture2D" uid="uid://utvnyqrnbw3b" path="res://assets/particles/hit_0.png" id="4_2akwu"]
 [ext_resource type="Texture2D" uid="uid://bf7nn5sgdn7eb" path="res://assets/particles/hit_1.png" id="5_moml2"]
@@ -16,7 +16,7 @@ size = Vector2(6, 7)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fsxoa"]
 resource_local_to_scene = true
 shader = ExtResource("2_qgsfd")
-shader_parameter/hit = null
+shader_parameter/hit = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xvwlw"]
 size = Vector2(10, 10)
@@ -38,6 +38,7 @@ frame_1/texture = ExtResource("7_0bnhi")
 frame_1/duration = 0.1
 
 [node name="Zombo" type="CharacterBody2D"]
+z_index = 1
 collision_layer = 2
 script = ExtResource("1_q4506")
 
@@ -63,18 +64,18 @@ wait_time = 0.1
 position = Vector2(0, -4)
 emitting = false
 amount = 1
+texture = SubResource("AnimatedTexture_jyvoj")
 lifetime = 0.3
 one_shot = true
-texture = SubResource("AnimatedTexture_jyvoj")
 gravity = Vector2(0, 0)
 
 [node name="DeathParticles" type="CPUParticles2D" parent="."]
 position = Vector2(0, -4)
 emitting = false
 amount = 1
+texture = SubResource("AnimatedTexture_y8o0g")
 lifetime = 0.2
 one_shot = true
-texture = SubResource("AnimatedTexture_y8o0g")
 gravity = Vector2(0, 0)
 
 [node name="Sounds" type="Node" parent="."]

@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcgjk4q5frymi"]
+
+[ext_resource type="Script" uid="uid://crd21b1oc4lj" path="res://scripts/pickups/coin.gd" id="1_aqeux"]
+[ext_resource type="Texture2D" uid="uid://borf4eayxmobq" path="res://assets/pickups/coin.png" id="2_fsodu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_efyxs"]
+radius = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aqeux"]
+resource_local_to_scene = true
+size = Vector2(3, 3)
+
+[node name="RigidBody2D" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_aqeux")
+
+[node name="Coin" type="Sprite2D" parent="."]
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("2_fsodu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_efyxs")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_aqeux")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

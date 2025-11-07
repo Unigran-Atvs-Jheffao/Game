@@ -145,7 +145,7 @@ position = Vector2(0, -4)
 position = Vector2(6, 0)
 
 [node name="HurtBox" type="Area2D" parent="CharacterBody2D"]
-collision_layer = 9
+collision_layer = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/HurtBox"]
 position = Vector2(0, -4)
